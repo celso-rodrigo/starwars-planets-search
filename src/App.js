@@ -1,9 +1,15 @@
 import React from 'react';
 import './App.css';
+import PlanetDisplay from './components/PlanetTable';
+import PlanetFilter from './components/PlanetFilter';
+import PlanetProvider from './context/PlanetProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <PlanetProvider>
+      <PlanetFilter />
+      <PlanetDisplay />
+    </PlanetProvider>
   );
 }
 
