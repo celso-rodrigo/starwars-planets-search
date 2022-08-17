@@ -6,8 +6,9 @@ function PlanetProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [nextPage, setNextPage] = useState('[]');
+  const [nextPage, setNextPage] = useState('');
   const [filterByName, setFilterByName] = useState('');
+  const [numericFilters, setnumericFilters] = useState([]);
   const [filterByNumericValues, setFilterByNumericValues] = useState([{
     column: 'population',
     comparison: 'maior que',
@@ -45,6 +46,7 @@ function PlanetProvider({ children }) {
         .filter((planet) => Number(planet[column]) === toNumber);
     }
     setFilteredPlanets(numericFilter);
+    setnumericFilters([...numericFilters, filterByNumericValues[0]]);
   };
 
   const handleTextFilter = ({ value }) => {
@@ -76,6 +78,7 @@ function PlanetProvider({ children }) {
     handleNumericFilters,
     numberFilter: filterByNumericValues[0].value,
     filterByNumericInfo,
+    numericFilters,
   };
 
   return (

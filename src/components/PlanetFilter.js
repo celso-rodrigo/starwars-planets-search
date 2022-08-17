@@ -8,6 +8,7 @@ function PlanetFilter() {
     handleNumericFilters,
     numberFilter,
     filterByNumericInfo,
+    numericFilters,
   } = useContext(planetContext);
 
   return (
@@ -61,6 +62,14 @@ function PlanetFilter() {
       >
         Filtrar
       </button>
+
+      {numericFilters.length > 0 && numericFilters.map((filter, index) => (
+        <p
+          key={ `filter-${index}` }
+        >
+          { `${filter.column} | ${filter.comparison} | ${filter.value}` }
+        </p>
+      ))}
     </div>
   );
 }
