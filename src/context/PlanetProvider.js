@@ -6,8 +6,10 @@ function PlanetProvider({ children }) {
   const apiUrl = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
   const [planets, setPlanets] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [categories, setCategories] = useState([]);
   const [nextPage, setNextPage] = useState('[]');
+  const [filterByName, setFilterByName] = useState('');
 
   useEffect(() => {
     const getApiResponse = async () => {
@@ -16,6 +18,7 @@ function PlanetProvider({ children }) {
       const resultPlanets = result.results;
       resultPlanets.forEach((planet) => delete planet.residents);
       setPlanets(resultPlanets);
+      setFilteredPlanets(resultPlanets);
       setCategories(Object.keys(resultPlanets[0]));
       setNextPage(result.next);
     };
@@ -23,10 +26,19 @@ function PlanetProvider({ children }) {
     getApiResponse();
   }, []);
 
+  const handleTextFilter = ({ value }) => {
+    setFilterByName(value);
+    setFilteredPlanets(planets.filter((planet) => (
+      (planet.name.toLowerCase()).includes(value.toLowerCase())
+    )));
+  };
+
   const providerValue = {
-    planets,
+    filteredPlanets,
     categories,
     nextPage,
+    filterByName,
+    handleTextFilter,
   };
 
   return (
