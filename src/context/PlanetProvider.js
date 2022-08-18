@@ -14,6 +14,13 @@ function PlanetProvider({ children }) {
     comparison: 'maior que',
     value: 0,
   }]);
+  const [filterOptions, setFilterOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   useEffect(() => {
     const getApiResponse = async () => {
@@ -31,8 +38,18 @@ function PlanetProvider({ children }) {
     getApiResponse();
   }, []);
 
+  useEffect(() => {
+    const updateColumn = () => {
+      setFilterByNumericValues(
+        [{ ...filterByNumericValues[0], column: filterOptions[0] }],
+      );
+    };
+    updateColumn();
+  }, [filterOptions]);
+
   const filterByNumericInfo = () => {
     const { column, value, comparison } = filterByNumericValues[0];
+    setFilterOptions(filterOptions.filter((option) => option !== column));
     const toNumber = Number(value);
     let numeFilter = filteredPlanets;
     if (comparison === 'maior que') {
@@ -78,6 +95,7 @@ function PlanetProvider({ children }) {
     numberFilter: filterByNumericValues[0].value,
     filterByNumericInfo,
     numericFilters,
+    filterOptions,
   };
 
   return (

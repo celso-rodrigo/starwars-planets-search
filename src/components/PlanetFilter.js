@@ -9,6 +9,7 @@ function PlanetFilter() {
     numberFilter,
     filterByNumericInfo,
     numericFilters,
+    filterOptions,
   } = useContext(planetContext);
 
   return (
@@ -29,11 +30,9 @@ function PlanetFilter() {
           name="columnFilter"
           onChange={ ({ target }) => handleNumericFilters(target) }
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          {filterOptions.map((option) => (
+            <option key={ option }>{ option }</option>
+          ))}
         </select>
 
         <select
