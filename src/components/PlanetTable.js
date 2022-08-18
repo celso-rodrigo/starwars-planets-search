@@ -5,12 +5,12 @@ function PlanetTable() {
   const { filteredPlanets, categories } = useContext(planetContext);
 
   return (
-    <table>
+    <table className="table table-striped">
       <thead>
         <tr>
           {categories.map((category) => (
             <th key={ `${category}-heading` }>
-              <h2>{ category }</h2>
+              <p>{ category }</p>
             </th>
           ))}
         </tr>

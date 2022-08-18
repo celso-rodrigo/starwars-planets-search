@@ -15,9 +15,9 @@ function PlanetFilter() {
   } = useContext(planetContext);
 
   return (
-    <div>
+    <div className=".container">
       <label htmlFor="textFilter">
-        <p>Filtrar:</p>
+        <p className="display-6">Filtrar: </p>
         <input
           type="text"
           name="textFilter"
@@ -26,8 +26,9 @@ function PlanetFilter() {
           data-testid="name-filter"
         />
       </label>
-      <div>
+      <div className=".container">
         <select
+          className="form-select"
           data-testid="column-filter"
           name="columnFilter"
           onChange={ ({ target }) => handleNumericFilters(target) }
@@ -38,6 +39,7 @@ function PlanetFilter() {
         </select>
 
         <select
+          className="form-select"
           data-testid="comparison-filter"
           name="comparisonFilter"
           onChange={ ({ target }) => handleNumericFilters(target) }
@@ -54,37 +56,41 @@ function PlanetFilter() {
           value={ numberFilter }
           onChange={ ({ target }) => handleNumericFilters(target) }
         />
-      </div>
-
-      <button
-        type="button"
-        onClick={ () => filterByNumericInfo() }
-        data-testid="button-filter"
-      >
-        Filtrar
-      </button>
-      {numericFilters.length > 0 && numericFilters.map((filter, index) => (
-        <div data-testid="filter" key={ `filter-${index}` }>
-          <p>
-            { `${filter.column} | ${filter.comparison} | ${filter.value}` }
-          </p>
-          <button
-            type="button"
-            onClick={ () => clearFilter(filter.column) }
-          >
-            X
-          </button>
-        </div>
-      ))}
-      {numericFilters.length > 0 && (
         <button
           type="button"
-          data-testid="button-remove-filters"
-          onClick={ clearAllFilters }
+          onClick={ () => filterByNumericInfo() }
+          data-testid="button-filter"
+          className="btn btn-dark"
         >
-          Remover todas filtragens
+          Filtrar
         </button>
-      )}
+      </div>
+      <div className="container">
+        {numericFilters.length > 0 && numericFilters.map((filter, index) => (
+          <div data-testid="filter" key={ `filter-${index}` }>
+            <p>
+              { `${filter.column} | ${filter.comparison} | ${filter.value}` }
+            </p>
+            <button
+              type="button"
+              onClick={ () => clearFilter(filter.column) }
+              className="btn btn-danger"
+            >
+              X
+            </button>
+          </div>
+        ))}
+        {numericFilters.length > 0 && (
+          <button
+            type="button"
+            data-testid="button-remove-filters"
+            onClick={ clearAllFilters }
+            className="btn btn-dark"
+          >
+            Remover todas filtragens
+          </button>
+        )}
+      </div>
     </div>
   );
 }

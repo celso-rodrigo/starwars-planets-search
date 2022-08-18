@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import PlanetDisplay from './components/PlanetTable';
 import PlanetFilter from './components/PlanetFilter';
 import PlanetProvider from './context/PlanetProvider';
