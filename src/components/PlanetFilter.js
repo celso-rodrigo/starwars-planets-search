@@ -4,12 +4,14 @@ import planetContext from '../context/planetsContext';
 function PlanetFilter() {
   const {
     filterByName,
-    handleTextFilter,
+    setFilterByName,
     handleNumericFilters,
     numberFilter,
     filterByNumericInfo,
     numericFilters,
     filterOptions,
+    clearFilter,
+    clearAllFilters,
   } = useContext(planetContext);
 
   return (
@@ -20,7 +22,7 @@ function PlanetFilter() {
           type="text"
           name="textFilter"
           value={ filterByName }
-          onChange={ ({ target }) => handleTextFilter(target) }
+          onChange={ ({ target }) => setFilterByName(target.value) }
           data-testid="name-filter"
         />
       </label>
@@ -56,19 +58,33 @@ function PlanetFilter() {
 
       <button
         type="button"
-        onClick={ filterByNumericInfo }
+        onClick={ () => filterByNumericInfo() }
         data-testid="button-filter"
       >
         Filtrar
       </button>
-
       {numericFilters.length > 0 && numericFilters.map((filter, index) => (
-        <p
-          key={ `filter-${index}` }
-        >
-          { `${filter.column} | ${filter.comparison} | ${filter.value}` }
-        </p>
+        <div data-testid="filter" key={ `filter-${index}` }>
+          <p>
+            { `${filter.column} | ${filter.comparison} | ${filter.value}` }
+          </p>
+          <button
+            type="button"
+            onClick={ () => clearFilter(filter.column) }
+          >
+            X
+          </button>
+        </div>
       ))}
+      {numericFilters.length > 0 && (
+        <button
+          type="button"
+          data-testid="button-remove-filters"
+          onClick={ clearAllFilters }
+        >
+          Remover todas filtragens
+        </button>
+      )}
     </div>
   );
 }

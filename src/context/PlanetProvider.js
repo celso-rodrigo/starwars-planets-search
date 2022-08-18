@@ -3,24 +3,30 @@ import PropTypes from 'prop-types';
 import planetContext from './planetsContext';
 
 function PlanetProvider({ children }) {
-  const [planets, setPlanets] = useState([]);
-  const [filteredPlanets, setFilteredPlanets] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [nextPage, setNextPage] = useState('');
-  const [filterByName, setFilterByName] = useState('');
-  const [numericFilters, setnumericFilters] = useState([]);
-  const [filterByNumericValues, setFilterByNumericValues] = useState([{
-    column: 'population',
-    comparison: 'maior que',
-    value: 0,
-  }]);
-  const [filterOptions, setFilterOptions] = useState([
+  const allFilterOptions = [
     'population',
     'orbital_period',
     'diameter',
     'rotation_period',
     'surface_water',
-  ]);
+  ];
+  const allNumericFilterValues = [{
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  }];
+
+  const [planets, setPlanets] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [nextPage, setNextPage] = useState('');
+  const [filterByName, setFilterByName] = useState('');
+  const [numericFilters, setNumericFilters] = useState([]);
+  const [filterOptions, setFilterOptions] = useState(allFilterOptions);
+  const [
+    filterByNumericValues,
+    setFilterByNumericValues,
+  ] = useState(allNumericFilterValues);
 
   useEffect(() => {
     const getApiResponse = async () => {
@@ -47,29 +53,39 @@ function PlanetProvider({ children }) {
     updateColumn();
   }, [filterOptions]);
 
-  const filterByNumericInfo = () => {
-    const { column, value, comparison } = filterByNumericValues[0];
-    setFilterOptions(filterOptions.filter((option) => option !== column));
-    const toNumber = Number(value);
-    let numeFilter = filteredPlanets;
-    if (comparison === 'maior que') {
-      numeFilter = numeFilter.filter((planet) => Number(planet[column]) > toNumber);
-    }
-    if (comparison === 'menor que') {
-      numeFilter = numeFilter.filter((planet) => Number(planet[column]) < toNumber);
-    }
-    if (comparison === 'igual a') {
-      numeFilter = numeFilter.filter((planet) => Number(planet[column]) === toNumber);
-    }
-    setFilteredPlanets(numeFilter);
-    setnumericFilters([...numericFilters, filterByNumericValues[0]]);
-  };
+  useEffect(() => {
+    const filterWithName = () => {
+      setFilteredPlanets(planets.filter((planet) => (
+        (planet.name.toLowerCase()).includes(filterByName.toLowerCase())
+      )));
+    };
+    filterWithName();
+  }, [filterByName]);
 
-  const handleTextFilter = ({ value }) => {
-    setFilterByName(value);
-    setFilteredPlanets(planets.filter((planet) => (
-      (planet.name.toLowerCase()).includes(value.toLowerCase())
-    )));
+  useEffect(() => {
+    const filterWithNumeric = (filter) => {
+      const { column, value, comparison } = filter;
+      const toNumber = Number(value);
+      let numFilter = filteredPlanets;
+      if (comparison === 'maior que') {
+        numFilter = numFilter.filter((planet) => Number(planet[column]) > toNumber);
+      }
+      if (comparison === 'menor que') {
+        numFilter = numFilter.filter((planet) => Number(planet[column]) < toNumber);
+      }
+      if (comparison === 'igual a') {
+        numFilter = numFilter.filter((planet) => Number(planet[column]) === toNumber);
+      }
+      setFilteredPlanets(numFilter);
+    };
+    numericFilters.forEach((filter) => filterWithNumeric(filter));
+  }, [numericFilters]);
+
+  const filterByNumericInfo = () => {
+    setNumericFilters(filterByNumericValues[0]);
+    setFilterOptions(filterOptions
+      .filter((option) => option !== filterByNumericValues[0].column));
+    setNumericFilters([...numericFilters, filterByNumericValues[0]]);
   };
 
   const handleNumericFilters = (target) => {
@@ -85,17 +101,32 @@ function PlanetProvider({ children }) {
     }
   };
 
+  const clearAllFilters = () => {
+    setFilteredPlanets(planets);
+    setNumericFilters([]);
+    setFilterByName('');
+    setFilterOptions(allFilterOptions);
+  };
+
+  const clearFilter = (column) => {
+    setNumericFilters(numericFilters.filter((filter) => filter.column !== column));
+    setFilterOptions([...filterOptions, column]);
+    setFilteredPlanets(planets);
+  };
+
   const providerValue = {
     filteredPlanets,
+    setFilterByName,
     categories,
     nextPage,
     filterByName,
-    handleTextFilter,
     handleNumericFilters,
     numberFilter: filterByNumericValues[0].value,
     filterByNumericInfo,
     numericFilters,
     filterOptions,
+    clearFilter,
+    clearAllFilters,
   };
 
   return (
