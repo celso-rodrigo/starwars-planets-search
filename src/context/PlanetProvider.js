@@ -34,18 +34,17 @@ function PlanetProvider({ children }) {
   const filterByNumericInfo = () => {
     const { column, value, comparison } = filterByNumericValues[0];
     const toNumber = Number(value);
-    let numericFilter = filteredPlanets;
+    let numeFilter = filteredPlanets;
     if (comparison === 'maior que') {
-      numericFilter = numericFilter.filter((planet) => Number(planet[column]) > toNumber);
+      numeFilter = numeFilter.filter((planet) => Number(planet[column]) > toNumber);
     }
     if (comparison === 'menor que') {
-      numericFilter = numericFilter.filter((planet) => Number(planet[column]) < toNumber);
+      numeFilter = numeFilter.filter((planet) => Number(planet[column]) < toNumber);
     }
     if (comparison === 'igual a') {
-      numericFilter = numericFilter
-        .filter((planet) => Number(planet[column]) === toNumber);
+      numeFilter = numeFilter.filter((planet) => Number(planet[column]) === toNumber);
     }
-    setFilteredPlanets(numericFilter);
+    setFilteredPlanets(numeFilter);
     setnumericFilters([...numericFilters, filterByNumericValues[0]]);
   };
 
