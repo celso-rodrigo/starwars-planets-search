@@ -1,5 +1,5 @@
 <h1>Starwars Planets Search</h1>
-<p>Este projeto foi desenvolvido em junho de 2022 durante meus estudos na <a href="https://www.betrybe.com/">Trybe</a>.</p>
+<p>Este projeto foi desenvolvido em agosto de 2022 durante meus estudos na <a href="https://www.betrybe.com/">Trybe</a>.</p>
 
 <br/>
 
