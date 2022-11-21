@@ -4,7 +4,7 @@
 <br/>
 
 <h2>O quê foi desenvolvido</h2>
-<p>Foi desenvolvido uma lista com filtros de planetas do universo de Star Wars usando Context API e Hooks para controlar os estados globais./p>
+<p>Foi desenvolvido uma lista com filtros de planetas do universo de Star Wars usando Context API e Hooks para controlar os estados globais.</p>
 <br/>
   
 <h2>O quê foi avaliado</h2>
